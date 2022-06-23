@@ -82,3 +82,4 @@ const functionality = function (active, action) {
 rollDiceEl.addEventListener('click', PigGame.getScore);
 holdEl.addEventListener('click', PigGame.getScore);
 newGameEl.addEventListener('click', PigGame.newGame);
+// 
