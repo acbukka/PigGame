@@ -34,51 +34,58 @@ class pigGame {
 // declare class
 const PigGame = new pigGame;
 
+const init = function () {
+  score.forEach((item) => item.innerHTML = 0);
+  currentEl.forEach((item) => item.innerHTML = 0);
+  activePlayer = 0;
+  player[0].classList.add('player--active');
+  player[1].classList.remove('player--active');
+  congrats.style.transform = 'translate(-50%, -250%)'
+  diceEl.src = './assets/dice-1.png';
+  rollDiceEl.addEventListener('click', PigGame.getScore);
+  holdEl.addEventListener('click', PigGame.getScore);
+  newGameEl.addEventListener('click', PigGame.newGame);
+}
+
+const switchPlayer = function (current) {
+  current.innerHTML = 0;
+  player[activePlayer].classList.toggle('player--active');
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  player[activePlayer].classList.toggle('player--active');
+}
+
 const functionality = function (active, action) {
   // select enter random number
   let randomNum = Math.floor(Math.random() * 6) + 1;
   let currentScore = currentEl[active];
-  if (action === 'roll') {
-    diceEl.classList.add('active');
-    diceEl.src = './assets/dice-0.png';
-    setTimeout(() => {
-      diceEl.classList.remove('active');
-      diceEl.src = `./assets/dice-${randomNum}.png`;
-      if (randomNum === 1) {
-        currentScore.innerHTML = 0;
-        player[activePlayer].classList.remove('player--active');
-        activePlayer += 1;
-        activePlayer > 1 ? activePlayer = 0 : activePlayer = activePlayer;
-        player[activePlayer].classList.add('player--active');
-      } else {
-        currentScore.innerHTML = +currentScore.innerHTML + randomNum;
+  switch (action) {
+    case 'roll':
+      diceEl.classList.add('active');
+      diceEl.src = './assets/dice-0.png';
+      setTimeout(() => {
+        diceEl.classList.remove('active');
+        diceEl.src = `./assets/dice-${randomNum}.png`;
+        if (randomNum === 1) {
+          switchPlayer(currentScore);
+        } else {
+          currentScore.innerHTML = +currentScore.innerHTML + randomNum;
+        }
+      }, 500)
+      break;
+    case 'hold':
+      score[activePlayer].innerHTML = +score[activePlayer].innerHTML + +currentScore.innerHTML;
+      if (+score[activePlayer].innerHTML >= 100) {
+        congrats.innerHTML = `Player ${activePlayer + 1} win!`;
+        congrats.style.transform = 'translate(-50%, -50%)';
+        rollDiceEl.removeEventListener('click', PigGame.getScore);
+        holdEl.removeEventListener('click', PigGame.getScore);
       }
-    }, 500)
-  } else if (action === 'hold') {
-    score[activePlayer].innerHTML = +score[activePlayer].innerHTML + +currentScore.innerHTML;
-    currentScore.innerHTML = 0;
-    if (+score[activePlayer].innerHTML >= 100) {
-      congrats.innerHTML = `Player ${activePlayer + 1} win!`;
-      congrats.style.transform = 'translate(-50%, -50%)';
-      rollDiceEl.removeEventListener('click', PigGame.getScore);
-      holdEl.removeEventListener('click', PigGame.getScore);
-    }
-    player[activePlayer].classList.remove('player--active');
-    activePlayer += 1;
-    activePlayer > 1 ? activePlayer = 0 : activePlayer = activePlayer;
-    player[activePlayer].classList.add('player--active');
-  } else if (action === 'newGame') {
-    score.forEach((item) => item.innerHTML = 0);
-    currentEl.forEach((item) => item.innerHTML = 0);
-    activePlayer = 0;
-    player[0].classList.add('player--active');
-    player[1].classList.remove('player--active');
-    congrats.style.transform = 'translate(-50%, -250%)'
-    rollDiceEl.addEventListener('click', PigGame.getScore);
-    holdEl.addEventListener('click', PigGame.getScore);
+      switchPlayer(currentScore);
+      break;
+    case 'newGame':
+      init();
+      break;
   }
 }
 
-rollDiceEl.addEventListener('click', PigGame.getScore);
-holdEl.addEventListener('click', PigGame.getScore);
-newGameEl.addEventListener('click', PigGame.newGame);
+document.addEventListener('DOMContentLoaded', init)
