@@ -66,7 +66,6 @@ a {
   justify-content: center;
 }
 
-
 .container {
   position: relative;
   display: flex;
@@ -78,6 +77,7 @@ a {
 }
 
 .block {
+  transition: all .4s;
   filter: opacity(0.5);
   flex: 50%;
   display: flex;
@@ -91,6 +91,7 @@ a {
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
 }
+
 .block-right {
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
@@ -174,7 +175,6 @@ a {
 
 .new-game {
   top: 10%;
-  margin: 0 auto;
 }
 
 .dice {
@@ -186,18 +186,15 @@ a {
 }
 
 .dice.active {
-  
   transform: translate(-50%, -50%) rotate(180deg);
 }
 
-
-
 .roll-dice {
-  bottom: 24%;
+  top: 70%;
 }
 
 .hold {
-  bottom: 14%;
+  top: 79%;
 }
 
 .player--0 {

@@ -6,6 +6,7 @@ const score = document.querySelectorAll('.score');
 const diceEl = document.querySelector('.dice');
 const newGameEl = document.querySelector('.new-game')
 const congrats = document.querySelector('.congrats')
+const btns = document.querySelectorAll('.btn')
 // select active btns
 const rollDiceEl = document.querySelector('.roll-dice');
 const holdEl = document.querySelector('.hold');
